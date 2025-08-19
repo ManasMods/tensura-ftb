@@ -4,7 +4,7 @@ loom {
     runs {
         data {
             data()
-            programArgs "--all", "--mod", "tensura_iaf"
+            programArgs "--all", "--mod", "tensura_ftb"
             programArgs "--output", project(':common').file('src/generated/resources').absolutePath
             programArgs "--existing", project(':common').file('src/main/resources').absolutePath
         }

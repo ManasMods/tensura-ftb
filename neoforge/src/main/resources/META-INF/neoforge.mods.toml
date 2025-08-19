@@ -4,30 +4,30 @@ loaderVersion = "[4,)"
 license = "All Rights Reserved"
 
 [[mods]]
-modId = "tensura_iaf"
+modId = "tensura_ftb"
 version = "${version}"
-displayName = "TenSura Compat: Ice and Fire"
+displayName = "TenSura Compat: FTB"
 authors = "MinhEragon"
 description = '''
-Compatibility mod to bridge Tensura:Reincarnated and Ice & Fire: Dragons.
+Compatibility mod to bridge Tensura:Reincarnated and major FTB mods.
 '''
 #logoFile = ""
 
-[[dependencies.tensura_iaf]]
+[[dependencies.tensura_ftb]]
 modId = "neoforge"
 type = "required"
 versionRange = "[21.1,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.tensura_iaf]]
+[[dependencies.tensura_ftb]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21.1,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.tensura_iaf]]
+[[dependencies.tensura_ftb]]
 modId = "architectury"
 type = "required"
 versionRange = "[13.0.8,)"
@@ -35,4 +35,4 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[mixins]]
-config = "tensura_iaf.mixins.json"
+config = "tensura_ftb.mixins.json"

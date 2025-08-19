@@ -139,16 +139,21 @@ subprojects {
             url = "https://modmaven.dev"
         }
 
-        exclusiveContent {
-            forRepository {
-                maven {
-                    url "https://cursemaven.com"
-                }
+        maven {
+            url "https://maven.ftb.dev/releases"
+            content {
+                includeGroup "dev.ftb.mods"
             }
-            filter {
-                includeGroup "curse.maven"
-            }
+        }
 
+        maven {
+            url "https://maven.ftb.dev/snapshots"
+            content {
+                includeGroup "dev.ftb.mods"
+            }
+        }
+
+        exclusiveContent {
             forRepository {
                 maven {
                     name = "Modrinth"
@@ -185,9 +190,10 @@ subprojects {
             modImplementation "net.tslat.smartbrainlib:SmartBrainLib-common-$rootProject.minecraft_version:$rootProject.sbl_version"
             modImplementation "com.github.glitchfiend:TerraBlender-common:$rootProject.minecraft_version-$rootProject.terrablender_version"
 
-            modImplementation "curse.maven:iceandfire-ce-1040076:6859514"
-            modImplementation "maven.modrinth:uranus:4mfB8LLj"
-            modImplementation "maven.modrinth:jupiter:yHfucqRJ"
+            modImplementation("dev.ftb.mods:ftb-library:${rootProject.ftb_library_version}")
+            modImplementation("dev.ftb.mods:ftb-teams:${rootProject.ftb_teams_version}")
+            modImplementation("dev.ftb.mods:ftb-chunks:${rootProject.ftb_chunks_version}")
+            modImplementation("dev.ftb.mods:ftb-quests:${rootProject.ftb_quests_version}")
 
             modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
             modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-common:${jei_version}")
@@ -216,9 +222,10 @@ subprojects {
             modImplementation "net.tslat.smartbrainlib:SmartBrainLib-fabric-$rootProject.minecraft_version:$rootProject.sbl_version"
             modImplementation "com.github.glitchfiend:TerraBlender-fabric:$rootProject.minecraft_version-$rootProject.terrablender_version"
 
-            modImplementation "curse.maven:iceandfire-ce-1040076:6859514"
-            modImplementation "maven.modrinth:uranus:4mfB8LLj"
-            modImplementation "maven.modrinth:jupiter:yHfucqRJ"
+            modImplementation("dev.ftb.mods:ftb-library-fabric:${rootProject.ftb_library_version}")
+            modImplementation("dev.ftb.mods:ftb-teams-fabric:${rootProject.ftb_teams_version}")
+            modImplementation("dev.ftb.mods:ftb-chunks-fabric:${rootProject.ftb_chunks_version}")
+            modImplementation("dev.ftb.mods:ftb-quests-fabric:${rootProject.ftb_quests_version}")
         }
 
         if (project.name.endsWith("neoforge")) {
@@ -243,9 +250,10 @@ subprojects {
             implementation "net.tslat.smartbrainlib:SmartBrainLib-neoforge-$rootProject.minecraft_version:$rootProject.sbl_version"
             implementation "com.github.glitchfiend:TerraBlender-neoforge:$rootProject.minecraft_version-$rootProject.terrablender_version"
 
-            implementation "curse.maven:iceandfire-ce-1040076:6859516"
-            modImplementation "maven.modrinth:uranus:ASbYgzAy"
-            modImplementation "maven.modrinth:jupiter:6FVn8sRM"
+            implementation("dev.ftb.mods:ftb-library-neoforge:${rootProject.ftb_library_version}")
+            implementation("dev.ftb.mods:ftb-teams-neoforge:${rootProject.ftb_teams_version}")
+            implementation("dev.ftb.mods:ftb-chunks-neoforge:${rootProject.ftb_chunks_version}")
+            implementation("dev.ftb.mods:ftb-quests-neoforge:${rootProject.ftb_quests_version}")
         }
     }
 
@@ -369,5 +377,14 @@ subprojects {
         remapJar {
             input.set shadowJar.archiveFile
         }
+    }
+
+    if (!project.name.endsWith("common")) {
+        task copyJar(type: Copy) {
+            from remapJar
+            into "${rootProject.projectDir}/build/"
+            rename("${project.name}", "${project.archives_name}-${project.name}")
+        }
+        build.dependsOn copyJar
     }
 }

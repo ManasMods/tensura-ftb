@@ -1,14 +1,16 @@
-# TenSura Compat: Ice and Fire
+# TenSura Compat: FTB
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b659e6afad474179a81579681ff34ccf)](https://www.codacy.com/gh/ManasMods/reincarnated_mod/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ManasMods/reincarnated_mod&amp;utm_campaign=Badge_Grade)
 [![DownloadCount](https://cf.way2muchnoise.eu/full_643695_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/tensura-compat-ice-fire)
 [![Discord](https://img.shields.io/discord/831767201966456852.svg?color=7289DA&label=discord&logo=discord&logoColor=FFFFFF)](https://discord.gg/D9TkjYPpcg)
 
-This Mod doesn't provide any new functionality for Minecraft itself. It requires TenSura: Reincarnated and Ice & Fire: Dragons to work.
+This Mod doesn't provide any new functionality for Minecraft itself. It requires TenSura: Reincarnated and FTB Library, FTB Teams, FTB Chunks, FTB Quests.
 
 # Features
-- Default EP and Abilities (Skills/Magics/Battlewills) for Ice & Fire mobs.
-- Default EP and evolutions for Ice & Fire gears.
-- Melt dragon steels in dragon forges with Tensura's Dragon Breath Skills.
-- Stage 4/5 Dragons drop Dragon Essences - Configurable.
-- Entity/Item/Block tags for Ice & Fire's contents.
+- Skill Griefing disabled in claims.
+- Tensura Abilities won't apply harmful effect, energy drain, possession, spiritual damage in non-pvp claims.
+- Skill plundering (copy/steal) won't be allowed in non-pvp claims.
+- Forced-teleportation by Tensura Abilities won't be allowed in non-pvp claims.
+- Kills by subordinates or clones will contribute to the owner's FTB quests.
+- Teams created by FTB Teams will be considered ally for Tensura's Ally system.
+- New task types for FTB Quests: Ability Acquisition, Awakening Status, Existence points, Spirits and Races.

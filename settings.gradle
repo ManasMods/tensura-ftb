@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'tensura_iaf'
+rootProject.name = 'tensura_ftb'
 
 include 'common'
 include 'fabric'

@@ -1,5 +1,5 @@
 loom {
-    accessWidenerPath = file('src/main/resources/tensura_iaf.accesswidener')
+    accessWidenerPath = file('src/main/resources/tensura_ftb.accesswidener')
 }
 
 dependencies {

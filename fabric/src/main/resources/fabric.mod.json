@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "id": "tensura_iaf",
+  "id": "tensura_ftb",
   "version": "${version}",
-  "name": "TenSura Compat: Ice and Fire",
-  "description": "Compatibility mod to bridge Tensura:Reincarnated and Ice & Fire: Dragons.",
+  "name": "TenSura Compat: FTB",
+  "description": "Compatibility mod to bridge Tensura:Reincarnated and major FTB mods.",
   "authors": [
     "MinhEragon"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/tensura-compat-ice-fire",
-    "sources": "https://github.com/ManasMods/tensura-ice-and-fire"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/tensura-compat-ftb",
+    "sources": "https://github.com/ManasMods/tensura-ftb"
   },
   "license": "All Rights Reserved",
-  "icon": "assets/tensura_iaf/icon.png",
+  "icon": "assets/tensura_ftb/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.manasmods.tensura_iaf.fabric.TensuraIafFabric"
+      "io.github.manasmods.tensura_ftb.fabric.TensuraFtbFabric"
     ],
     "client": [
-      "io.github.manasmods.tensura_iaf.fabric.client.TensuraIafFabricClient"
+      "io.github.manasmods.tensura_ftb.fabric.client.TensuraFtbFabricClient"
     ]
   },
   "mixins": [
-    "tensura_iaf.mixins.json"
+    "tensura_ftb.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.16.10",

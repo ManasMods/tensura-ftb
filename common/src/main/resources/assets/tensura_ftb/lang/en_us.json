@@ -1,0 +1,25 @@
+{
+  "ftbquests.reward.tensura_ftb.ability": "Ability",
+  "ftbquests.task.tensura_ftb.ability": "Ability Acquisition",
+  "tensura_ftb.task.ability.status": "Acquisition Status",
+  "tensura_ftb.task.ability.ability": "Ability",
+  "tensura_ftb.task.ability.remove_time": "Remove Seconds",
+
+  "ftbquests.reward.tensura_ftb.awakening": "Evolution",
+  "ftbquests.task.tensura_ftb.awakening": "Awakening Status",
+  "ftbquests.task.tensura_ftb.awakening.status": "Awakening Status",
+
+  "ftbquests.reward.tensura_ftb.existence_value": "Existence Values",
+  "ftbquests.task.tensura_ftb.existence_value": "Existence Values",
+  "tensura_ftb.task.existence_value.type": "Existence Type",
+  "tensura_ftb.task.existence_value.value": "Value",
+
+  "ftbquests.reward.tensura_ftb.spirit": "Elemental Spirits",
+  "ftbquests.task.tensura_ftb.spirit": "Elemental Spirits",
+  "tensura_ftb.task.spirit.element": "Spirit Element",
+  "tensura_ftb.task.spirit.level": "Spirit Level",
+
+  "ftbquests.reward.tensura_ftb.race": "Race",
+  "ftbquests.task.tensura_ftb.race": "Race",
+  "ftbquests.task.tensura_ftb.race.race": "Race"
+}
