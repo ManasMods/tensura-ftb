@@ -11,7 +11,6 @@ import io.github.manasmods.manascore.skill.api.ManasSkillInstance;
 import io.github.manasmods.manascore.skill.api.SkillAPI;
 import io.github.manasmods.manascore.skill.api.Skills;
 import io.github.manasmods.tensura.registry.skill.UniqueSkills;
-import io.github.manasmods.tensura_ftb.registry.TensuraTaskTypes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.HolderLookup;
@@ -23,6 +22,7 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.Optional;
 
 public class AbilityTask extends AbstractBooleanTask {
+	public static TaskType ABILITY;
 	private ResourceLocation skill = UniqueSkills.PREDATOR.getId();
 	private AcquisitionStatus status = AcquisitionStatus.LEARNT;
 
@@ -32,7 +32,7 @@ public class AbilityTask extends AbstractBooleanTask {
 
 	@Override
 	public TaskType getType() {
-		return TensuraTaskTypes.ABILITY;
+		return ABILITY;
 	}
 
 	@Override

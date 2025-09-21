@@ -14,3 +14,4 @@ This Mod doesn't provide any new functionality for Minecraft itself. It requires
 - Kills by subordinates or clones will contribute to the owner's FTB quests.
 - Teams created by FTB Teams will be considered ally for Tensura's Ally system.
 - New task types for FTB Quests: Ability Acquisition, Awakening Status, Existence points, Spirits and Races.
+- New reward types for FTB Quests: Ability Acquisition, Random Ability, Awakening Status, Existence points, Spirits and Races.

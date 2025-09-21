@@ -12,7 +12,6 @@ import io.github.manasmods.tensura.ability.TensuraSkill;
 import io.github.manasmods.tensura.ability.TensuraSkillInstance;
 import io.github.manasmods.tensura.ability.skill.resist.ResistSkill;
 import io.github.manasmods.tensura.registry.skill.CommonSkills;
-import io.github.manasmods.tensura_ftb.registry.TensuraRewardTypes;
 import io.github.manasmods.tensura_ftb.tasks.AbilityTask;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public class AbilityReward extends Reward {
+	public static RewardType ABILITY;
 	private ResourceLocation skill = CommonSkills.SELF_REGENERATION.getId();
 	private AbilityTask.AcquisitionStatus status = AbilityTask.AcquisitionStatus.LEARNT;
 	private int removeTime = -1;
@@ -33,7 +33,7 @@ public class AbilityReward extends Reward {
 
 	@Override
 	public RewardType getType() {
-		return TensuraRewardTypes.ABILITY;
+		return ABILITY;
 	}
 
 	@Override

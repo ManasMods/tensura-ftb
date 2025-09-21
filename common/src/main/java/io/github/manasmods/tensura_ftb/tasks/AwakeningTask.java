@@ -9,7 +9,6 @@ import io.github.manasmods.manascore.race.api.ManasRaceInstance;
 import io.github.manasmods.manascore.race.api.RaceAPI;
 import io.github.manasmods.tensura.storage.Alignment;
 import io.github.manasmods.tensura.storage.TensuraStorages;
-import io.github.manasmods.tensura_ftb.registry.TensuraTaskTypes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.HolderLookup;
@@ -20,6 +19,7 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.Optional;
 
 public class AwakeningTask extends AbstractBooleanTask {
+	public static TaskType AWAKENING;
 	private AwakeningStatus status = AwakeningStatus.ANY;
 
 	public AwakeningTask(long id, Quest quest) {
@@ -28,7 +28,7 @@ public class AwakeningTask extends AbstractBooleanTask {
 
 	@Override
 	public TaskType getType() {
-		return TensuraTaskTypes.AWAKENING;
+		return AWAKENING;
 	}
 
 	@Override

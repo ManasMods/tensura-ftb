@@ -9,7 +9,6 @@ import io.github.manasmods.tensura.ability.magic.Element;
 import io.github.manasmods.tensura.ability.magic.spiritual.SpiritualMagic;
 import io.github.manasmods.tensura.storage.TensuraStorages;
 import io.github.manasmods.tensura.storage.spirit.ISpiritWielder;
-import io.github.manasmods.tensura_ftb.registry.TensuraTaskTypes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.HolderLookup;
@@ -18,6 +17,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 
 public class SpiritTask extends AbstractBooleanTask {
+	public static TaskType SPIRIT;
 	private Element element = Element.UNIDENTIFIED;
 	private SpiritualMagic.SpiritLevel level = SpiritualMagic.SpiritLevel.LESSER;
 
@@ -27,7 +27,7 @@ public class SpiritTask extends AbstractBooleanTask {
 
 	@Override
 	public TaskType getType() {
-		return TensuraTaskTypes.SPIRIT;
+		return SPIRIT;
 	}
 
 	@Override

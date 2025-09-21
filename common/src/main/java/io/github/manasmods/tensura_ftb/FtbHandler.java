@@ -124,8 +124,8 @@ public class FtbHandler {
         TensuraSkillEvents.SKILL_GRIEF_PRE.register((instance, owner, x, y, z) -> {
             if (CONFIG.abilityGrief) return EventResult.pass();
             BlockPos pos = ObjectSelectionHelper.getBlockPos(new Vec3(x, y, z));
-            if (owner instanceof ServerPlayer sp && ClaimedChunkManagerImpl.getInstance().shouldPreventInteraction(owner, InteractionHand.MAIN_HAND, pos, FTBChunksExpected.getBlockBreakProtection(), null)) {
-                FTBCUtils.forceHeldItemSync(sp, InteractionHand.MAIN_HAND);
+            if (ClaimedChunkManagerImpl.getInstance().shouldPreventInteraction(owner, InteractionHand.MAIN_HAND, pos, FTBChunksExpected.getBlockBreakProtection(), null)) {
+                if (owner instanceof ServerPlayer sp) FTBCUtils.forceHeldItemSync(sp, InteractionHand.MAIN_HAND);
                 return EventResult.interruptFalse();
             }
             return EventResult.pass();
@@ -135,11 +135,9 @@ public class FtbHandler {
     private static boolean isPvPProtectedChunk(PvPMode mode, LivingEntity entity) {
         if (entity == null) return false;
         if (entity instanceof Player && !CONFIG.protectPlayers) return false;
-
         if (entity instanceof Mob mob) {
-            if (SubordinateHelper.getSubordinateOwnerUUID(mob) != null) {
-                if (!CONFIG.protectSubordinates) return false;
-            } else if (!CONFIG.protectMobs) return false;
+            if (SubordinateHelper.getSubordinateOwnerUUID(mob) != null && !CONFIG.protectSubordinates) return false;
+            if (!CONFIG.protectMobs) return false;
         }
 
         ClaimedChunk cc = ClaimedChunkManagerImpl.getInstance().getChunk(new ChunkDimPos(entity.level(), entity.blockPosition()));

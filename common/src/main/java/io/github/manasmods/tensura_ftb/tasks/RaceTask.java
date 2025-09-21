@@ -9,7 +9,6 @@ import io.github.manasmods.manascore.race.api.ManasRace;
 import io.github.manasmods.manascore.race.api.ManasRaceInstance;
 import io.github.manasmods.manascore.race.api.RaceAPI;
 import io.github.manasmods.tensura.registry.race.TensuraRaces;
-import io.github.manasmods.tensura_ftb.registry.TensuraTaskTypes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.HolderLookup;
@@ -21,6 +20,7 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.Optional;
 
 public class RaceTask extends AbstractBooleanTask {
+	public static TaskType RACE;
 	private ResourceLocation race = TensuraRaces.HUMAN.getId();
 
 	public RaceTask(long id, Quest quest) {
@@ -29,7 +29,7 @@ public class RaceTask extends AbstractBooleanTask {
 
 	@Override
 	public TaskType getType() {
-		return TensuraTaskTypes.RACE;
+		return RACE;
 	}
 
 	@Override

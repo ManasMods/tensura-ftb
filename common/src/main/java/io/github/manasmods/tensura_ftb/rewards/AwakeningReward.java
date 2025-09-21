@@ -8,7 +8,6 @@ import io.github.manasmods.tensura.race.RaceHelper;
 import io.github.manasmods.tensura.storage.Alignment;
 import io.github.manasmods.tensura.storage.TensuraStorages;
 import io.github.manasmods.tensura.storage.ep.IExistence;
-import io.github.manasmods.tensura_ftb.registry.TensuraRewardTypes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.HolderLookup;
@@ -17,6 +16,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 
 public class AwakeningReward extends Reward {
+	public static RewardType AWAKENING;
 	private AwakeningStatus status = AwakeningStatus.RACE_EVOLVE;
 
 	public AwakeningReward(long id, Quest quest) {
@@ -25,7 +25,7 @@ public class AwakeningReward extends Reward {
 
 	@Override
 	public RewardType getType() {
-		return TensuraRewardTypes.AWAKENING;
+		return AWAKENING;
 	}
 
 	@Override

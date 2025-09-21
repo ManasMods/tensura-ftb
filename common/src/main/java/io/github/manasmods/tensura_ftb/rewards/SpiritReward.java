@@ -8,7 +8,6 @@ import io.github.manasmods.tensura.ability.magic.Element;
 import io.github.manasmods.tensura.ability.magic.spiritual.SpiritualMagic;
 import io.github.manasmods.tensura.storage.TensuraStorages;
 import io.github.manasmods.tensura.storage.spirit.ISpiritWielder;
-import io.github.manasmods.tensura_ftb.registry.TensuraRewardTypes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.HolderLookup;
@@ -17,6 +16,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 
 public class SpiritReward extends Reward {
+	public static RewardType SPIRIT;
 	private Element element = Element.FLAME;
 	private SpiritualMagic.SpiritLevel level = SpiritualMagic.SpiritLevel.LESSER;
 
@@ -26,7 +26,7 @@ public class SpiritReward extends Reward {
 
 	@Override
 	public RewardType getType() {
-		return TensuraRewardTypes.SPIRIT;
+		return SPIRIT;
 	}
 
 	@Override

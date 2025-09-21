@@ -8,7 +8,6 @@ import io.github.manasmods.manascore.race.api.ManasRace;
 import io.github.manasmods.manascore.race.api.RaceAPI;
 import io.github.manasmods.manascore.race.api.Races;
 import io.github.manasmods.tensura.registry.race.TensuraRaces;
-import io.github.manasmods.tensura_ftb.registry.TensuraRewardTypes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.HolderLookup;
@@ -18,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public class RaceReward extends Reward {
+	public static RewardType RACE;
 	private ResourceLocation race = TensuraRaces.HUMAN.getId();
 	public RaceReward(long id, Quest quest) {
 		super(id, quest);
@@ -25,7 +25,7 @@ public class RaceReward extends Reward {
 
 	@Override
 	public RewardType getType() {
-		return TensuraRewardTypes.RACE;
+		return RACE;
 	}
 
 	@Override

@@ -7,9 +7,7 @@
   ],
   "mixins": [
     "MixinFTBQuestsEventHandler",
-    "MixinRewardTypes",
-    "MixinSubordinateHelper",
-    "MixinTaskTypes"
+    "MixinSubordinateHelper"
   ],
   "injectors": {
     "defaultRequire": 1

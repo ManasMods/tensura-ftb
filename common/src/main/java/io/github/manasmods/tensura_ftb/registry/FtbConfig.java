@@ -10,7 +10,7 @@ public class FtbConfig extends ManasConfig {
     public boolean protectPlayers = true;
     @Comment("Protect subordinates/pets from tensura abilities in non-pvp claims.")
     public boolean protectSubordinates = true;
-    @Comment("Protect non-subordinate/pet mobs from tensura abilities in non-pvp claims.")
+    @Comment("Protect every mob (including non-subordinate/pet) from tensura abilities in non-pvp claims.")
     public boolean protectMobs = true;
 
     @Comment("Allow harmful effect from others to be inflicted in non-pvp claims.")

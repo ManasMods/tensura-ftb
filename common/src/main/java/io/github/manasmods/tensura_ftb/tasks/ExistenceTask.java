@@ -8,7 +8,6 @@ import dev.ftb.mods.ftbquests.quest.task.Task;
 import dev.ftb.mods.ftbquests.quest.task.TaskType;
 import io.github.manasmods.tensura.storage.TensuraStorages;
 import io.github.manasmods.tensura.util.EnergyHelper;
-import io.github.manasmods.tensura_ftb.registry.TensuraTaskTypes;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.HolderLookup;
@@ -18,15 +17,16 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
 public class ExistenceTask extends Task implements ISingleLongValueTask {
+	public static TaskType EXISTENCE;
 	private long value = 1L;
-	private ExistenceType type = ExistenceType.MAX_EP;
+	private ExistenceType existence = ExistenceType.MAX_EP;
 	public ExistenceTask(long id, Quest quest) {
 		super(id, quest);
 	}
 
 	@Override
 	public TaskType getType() {
-		return TensuraTaskTypes.EXISTENCE;
+		return EXISTENCE;
 	}
 
 	@Override
@@ -48,28 +48,28 @@ public class ExistenceTask extends Task implements ISingleLongValueTask {
 	public void writeData(CompoundTag nbt, HolderLookup.Provider provider) {
 		super.writeData(nbt, provider);
 		nbt.putLong("value", value);
-		nbt.putString("type", type.toString());
+		nbt.putString("existence", existence.toString());
 	}
 
 	@Override
 	public void readData(CompoundTag nbt, HolderLookup.Provider provider) {
 		super.readData(nbt, provider);
 		value = nbt.getLong("value");
-		type = ExistenceType.valueOf(nbt.getString("type"));
+		existence = ExistenceType.valueOf(nbt.getString("existence"));
 	}
 
 	@Override
 	public void writeNetData(RegistryFriendlyByteBuf buffer) {
 		super.writeNetData(buffer);
 		buffer.writeVarLong(value);
-		buffer.writeEnum(type);
+		buffer.writeEnum(existence);
 	}
 
 	@Override
 	public void readNetData(RegistryFriendlyByteBuf buffer) {
 		super.readNetData(buffer);
 		value = buffer.readVarLong();
-		type = buffer.readEnum(ExistenceType.class);
+		existence = buffer.readEnum(ExistenceType.class);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class ExistenceTask extends Task implements ISingleLongValueTask {
 	public void fillConfigGroup(ConfigGroup config) {
 		super.fillConfigGroup(config);
 		config.addLong("value", value, v -> value = v, 1L, 1L, Long.MAX_VALUE).setNameKey("tensura_ftb.task.existence_value.value");
-		config.addString("type", type.toString(), v -> type = ExistenceType.valueOf(v), "MAX_EP").setNameKey("tensura_ftb.task.existence_value.type");
+		config.addString("existence", existence.toString(), v -> existence = ExistenceType.valueOf(v), "MAX_EP").setNameKey("tensura_ftb.task.existence_value.type");
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class ExistenceTask extends Task implements ISingleLongValueTask {
 	}
 
 	public double getExistenceValue(ServerPlayer player) {
-		return switch (type) {
+		return switch (existence) {
 			case EP -> TensuraStorages.getExistenceFrom(player).getEP();
 			case MAGICULE -> TensuraStorages.getExistenceFrom(player).getMagicule();
 			case AURA -> TensuraStorages.getExistenceFrom(player).getAura();

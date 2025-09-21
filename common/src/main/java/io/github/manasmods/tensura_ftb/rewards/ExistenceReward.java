@@ -9,7 +9,6 @@ import io.github.manasmods.tensura.storage.TensuraStorages;
 import io.github.manasmods.tensura.storage.ep.IExistence;
 import io.github.manasmods.tensura.storage.player.ITensuraPlayer;
 import io.github.manasmods.tensura.util.EnergyHelper;
-import io.github.manasmods.tensura_ftb.registry.TensuraRewardTypes;
 import io.github.manasmods.tensura_ftb.tasks.ExistenceTask;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -20,8 +19,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 
 public class ExistenceReward extends Reward {
+	public static RewardType EXISTENCE;
 	private int value;
-	private ExistenceTask.ExistenceType type = ExistenceTask.ExistenceType.MAX_EP;
+	private ExistenceTask.ExistenceType existence = ExistenceTask.ExistenceType.MAX_EP;
 	public ExistenceReward(long id, Quest quest, int xp) {
 		super(id, quest);
 		this.value = xp;
@@ -33,35 +33,35 @@ public class ExistenceReward extends Reward {
 
 	@Override
 	public RewardType getType() {
-		return TensuraRewardTypes.EXISTENCE;
+		return EXISTENCE;
 	}
 
 	@Override
 	public void writeData(CompoundTag nbt, HolderLookup.Provider provider) {
 		super.writeData(nbt, provider);
 		nbt.putInt("existence", value);
-		nbt.putString("type", type.toString());
+		nbt.putString("existence", existence.toString());
 	}
 
 	@Override
 	public void readData(CompoundTag nbt, HolderLookup.Provider provider) {
 		super.readData(nbt, provider);
 		value = nbt.getInt("existence");
-		type = ExistenceTask.ExistenceType.valueOf(nbt.getString("type"));
+		existence = ExistenceTask.ExistenceType.valueOf(nbt.getString("existence"));
 	}
 
 	@Override
 	public void writeNetData(RegistryFriendlyByteBuf buffer) {
 		super.writeNetData(buffer);
 		buffer.writeVarInt(value);
-		buffer.writeEnum(type);
+		buffer.writeEnum(existence);
 	}
 
 	@Override
 	public void readNetData(RegistryFriendlyByteBuf buffer) {
 		super.readNetData(buffer);
 		value = buffer.readVarInt();
-		type = buffer.readEnum(ExistenceTask.ExistenceType.class);
+		existence = buffer.readEnum(ExistenceTask.ExistenceType.class);
 	}
 
 	@Override
@@ -69,12 +69,12 @@ public class ExistenceReward extends Reward {
 	public void fillConfigGroup(ConfigGroup config) {
 		super.fillConfigGroup(config);
 		config.addInt("value", value, v -> value = v, 1, 1, Integer.MAX_VALUE).setNameKey("tensura_ftb.task.existence_value.value");
-		config.addString("type", type.toString(), v -> type = ExistenceTask.ExistenceType.valueOf(v), "MAX_EP").setNameKey("tensura_ftb.task.existence_value.type");
+		config.addString("existence", existence.toString(), v -> existence = ExistenceTask.ExistenceType.valueOf(v), "MAX_EP").setNameKey("tensura_ftb.task.existence_value.type");
 	}
 
 	@Override
 	public void claim(ServerPlayer player, boolean notify) {
-		switch (type) {
+		switch (existence) {
 			case EP -> {
 				EnergyHelper.gainMagicule(player, value / 2D, EnergyHelper.GainType.NORMAL);
 				EnergyHelper.gainAura(player, value / 2D, EnergyHelper.GainType.NORMAL);
