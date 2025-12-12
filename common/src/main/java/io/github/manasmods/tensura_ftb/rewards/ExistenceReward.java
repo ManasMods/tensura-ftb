@@ -39,14 +39,14 @@ public class ExistenceReward extends Reward {
 	@Override
 	public void writeData(CompoundTag nbt, HolderLookup.Provider provider) {
 		super.writeData(nbt, provider);
-		nbt.putInt("existence", value);
+		nbt.putInt("value", value);
 		nbt.putString("existence", existence.toString());
 	}
 
 	@Override
 	public void readData(CompoundTag nbt, HolderLookup.Provider provider) {
 		super.readData(nbt, provider);
-		value = nbt.getInt("existence");
+		value = nbt.getInt("value");
 		existence = ExistenceTask.ExistenceType.valueOf(nbt.getString("existence"));
 	}
 
@@ -68,7 +68,7 @@ public class ExistenceReward extends Reward {
 	@Environment(EnvType.CLIENT)
 	public void fillConfigGroup(ConfigGroup config) {
 		super.fillConfigGroup(config);
-		config.addInt("value", value, v -> value = v, 1, 1, Integer.MAX_VALUE).setNameKey("tensura_ftb.task.existence_value.value");
+		config.addInt("value", value, v -> value = v, 1000, Integer.MIN_VALUE, Integer.MAX_VALUE).setNameKey("tensura_ftb.task.existence_value.value");
 		config.addString("existence", existence.toString(), v -> existence = ExistenceTask.ExistenceType.valueOf(v), "MAX_EP").setNameKey("tensura_ftb.task.existence_value.type");
 	}
 

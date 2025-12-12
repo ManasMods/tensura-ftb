@@ -22,6 +22,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -40,7 +41,7 @@ public class FtbHandler {
             if (!entity.level().isClientSide() && source instanceof LivingEntity attacker) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
                 if (mode == PvPMode.ALWAYS) return EventResult.pass();
-                if (isPvPProtectedChunk(mode, entity) || isPvPProtectedChunk(mode, attacker)) {
+                if (isPvPProtectedChunk(mode, entity, attacker)) {
                     if (attacker instanceof Player player)
                         PlayerNotifier.notifyWithCooldown(player, Component.translatable("ftbchunks.message.no_pvp").withStyle(ChatFormatting.GOLD), 3000L);
                     return EventResult.interruptFalse();
@@ -54,7 +55,7 @@ public class FtbHandler {
             if (!target.level().isClientSide() && drainer instanceof LivingEntity attacker) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
                 if (mode == PvPMode.ALWAYS) return EventResult.pass();
-                if (isPvPProtectedChunk(mode, target) || isPvPProtectedChunk(mode, attacker)) {
+                if (isPvPProtectedChunk(mode, target, attacker)) {
                     if (attacker instanceof Player player)
                         PlayerNotifier.notifyWithCooldown(player, Component.translatable("ftbchunks.message.no_pvp").withStyle(ChatFormatting.GOLD), 3000L);
                     return EventResult.interruptFalse();
@@ -68,7 +69,7 @@ public class FtbHandler {
             if (!target.level().isClientSide() && possessor instanceof LivingEntity attacker) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
                 if (mode == PvPMode.ALWAYS) return EventResult.pass();
-                if (isPvPProtectedChunk(mode, target) || isPvPProtectedChunk(mode, attacker)) {
+                if (isPvPProtectedChunk(mode, target, attacker)) {
                     if (attacker instanceof Player player)
                         PlayerNotifier.notifyWithCooldown(player, Component.translatable("ftbchunks.message.no_pvp").withStyle(ChatFormatting.GOLD), 3000L);
                     return EventResult.interruptFalse();
@@ -82,7 +83,7 @@ public class FtbHandler {
             if (!target.level().isClientSide() && attacker instanceof LivingEntity livingAttacker) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
                 if (mode == PvPMode.ALWAYS) return EventResult.pass();
-                if (isPvPProtectedChunk(mode, target) || isPvPProtectedChunk(mode, livingAttacker)) {
+                if (isPvPProtectedChunk(mode, target, livingAttacker)) {
                     if (livingAttacker instanceof Player player)
                         PlayerNotifier.notifyWithCooldown(player, Component.translatable("ftbchunks.message.no_pvp").withStyle(ChatFormatting.GOLD), 3000L);
                     return EventResult.interruptFalse();
@@ -98,7 +99,7 @@ public class FtbHandler {
             if (!target.level().isClientSide() && target instanceof LivingEntity livingTarget && teleporter instanceof LivingEntity livingOwner) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
                 if (mode == PvPMode.ALWAYS) return EventResult.pass();
-                if (isPvPProtectedChunk(mode, livingTarget) || isPvPProtectedChunk(mode, livingOwner)) {
+                if (isPvPProtectedChunk(mode, livingTarget, livingOwner)) {
                     if (livingOwner instanceof Player player)
                         PlayerNotifier.notifyWithCooldown(player, Component.translatable("ftbchunks.message.no_pvp").withStyle(ChatFormatting.GOLD), 3000L);
                     return EventResult.interruptFalse();
@@ -112,7 +113,7 @@ public class FtbHandler {
             if (!target.level().isClientSide() && target instanceof LivingEntity livingTarget && owner instanceof LivingEntity livingOwner) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
                 if (mode == PvPMode.ALWAYS) return EventResult.pass();
-                if (isPvPProtectedChunk(mode, livingTarget) || isPvPProtectedChunk(mode, livingOwner)) {
+                if (isPvPProtectedChunk(mode, livingTarget, livingOwner)) {
                     if (livingOwner instanceof Player player)
                         PlayerNotifier.notifyWithCooldown(player, Component.translatable("ftbchunks.message.no_pvp").withStyle(ChatFormatting.GOLD), 3000L);
                     return EventResult.interruptFalse();
@@ -132,14 +133,28 @@ public class FtbHandler {
         });
     }
 
-    private static boolean isPvPProtectedChunk(PvPMode mode, LivingEntity entity) {
+    private static boolean isPvPProtectedChunk(PvPMode mode, LivingEntity entity, LivingEntity attacker) {
         if (entity == null) return false;
-        if (entity instanceof Player && !CONFIG.protectPlayers) return false;
-        if (entity instanceof Mob mob) {
-            if (SubordinateHelper.getSubordinateOwnerUUID(mob) != null && !CONFIG.protectSubordinates) return false;
-            if (!CONFIG.protectMobs) return false;
+        if (CONFIG.protectPlayers && entity.getType().equals(EntityType.PLAYER)) {
+            if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, entity);
+            if (attacker instanceof Mob mob && SubordinateHelper.getSubordinateOwner(mob) instanceof Player) return canPVP(mode, entity);
         }
 
+        if (entity instanceof Mob mob) {
+            if (CONFIG.protectSubordinates && SubordinateHelper.getSubordinateOwner(mob) instanceof Player player && !player.equals(attacker)) {
+                if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, entity);
+                if (attacker instanceof Mob sub && SubordinateHelper.getSubordinateOwner(sub) instanceof Player) return canPVP(mode, entity);
+            }
+
+            if (CONFIG.protectMobs) {
+                if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, entity);
+                if (attacker instanceof Mob sub && SubordinateHelper.getSubordinateOwner(sub) instanceof Player) return canPVP(mode, entity);
+            }
+        }
+        return false;
+    }
+
+    private static boolean canPVP(PvPMode mode, LivingEntity entity) {
         ClaimedChunk cc = ClaimedChunkManagerImpl.getInstance().getChunk(new ChunkDimPos(entity.level(), entity.blockPosition()));
         return cc != null && (mode == PvPMode.NEVER || !cc.getTeamData().allowPVP());
     }
