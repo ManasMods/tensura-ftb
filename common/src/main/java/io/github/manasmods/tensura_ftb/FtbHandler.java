@@ -13,6 +13,7 @@ import io.github.manasmods.manascore.config.ConfigRegistry;
 import io.github.manasmods.manascore.skill.api.EntityEvents;
 import io.github.manasmods.tensura.event.TensuraEntityEvents;
 import io.github.manasmods.tensura.event.TensuraSkillEvents;
+import io.github.manasmods.tensura.storage.player.WarpPoint;
 import io.github.manasmods.tensura.util.ObjectSelectionHelper;
 import io.github.manasmods.tensura.util.SubordinateHelper;
 import io.github.manasmods.tensura_ftb.registry.FtbConfig;
@@ -93,7 +94,7 @@ public class FtbHandler {
         });
 
         TensuraEntityEvents.INSTANT_TRANSMISSION_EVENT.register((target, teleporter, position, type) -> {
-            if (!type.equals(TensuraEntityEvents.TransmissionType.ABILITY) || target == teleporter) return EventResult.pass();
+            if (!type.equals(WarpPoint.TransmissionType.ABILITY) || target == teleporter) return EventResult.pass();
             if (CONFIG.forcedTeleportation) return EventResult.pass();
 
             if (!target.level().isClientSide() && target instanceof LivingEntity livingTarget && teleporter instanceof LivingEntity livingOwner) {

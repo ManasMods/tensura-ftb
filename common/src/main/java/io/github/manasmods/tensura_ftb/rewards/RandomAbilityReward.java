@@ -90,6 +90,7 @@ public class RandomAbilityReward extends Reward {
 
 	@Override
 	public void claim(ServerPlayer player, boolean notify) {
+        if (player == null) return;
 		Skills skills = SkillAPI.getSkillsFrom(player);
 		List<ManasSkill> list = SkillAPI.getSkillRegistry().entrySet().stream().map(Map.Entry::getValue)
 				.filter(manasSkill -> this.checkNewAbility(skills, manasSkill)).toList();
@@ -121,7 +122,7 @@ public class RandomAbilityReward extends Reward {
 		UNIQUE(skill -> skill instanceof Skill pSkill && pSkill.getType().equals(Skill.SkillType.UNIQUE)),
 		ULTIMATE(skill -> skill instanceof Skill pSkill && pSkill.getType().equals(Skill.SkillType.ULTIMATE)),
 		MAGIC(skill -> skill instanceof Magic),
-		ELEMENTAL(skill -> skill instanceof Magic magic && magic.getType().equals(Magic.MagicType.ELEMENTAL)),
+		ELEMENTAL(skill -> skill instanceof Magic magic && magic.getType().equals(Magic.MagicType.ASPECTUAL)),
 		SPIRITUAL(skill -> skill instanceof Magic magic && magic.getType().equals(Magic.MagicType.SPIRITUAL)),
 		SUMMONING(skill -> skill instanceof Magic magic && magic.getType().equals(Magic.MagicType.SUMMONING)),
 		MISC(skill -> skill instanceof Magic magic && magic.getType().equals(Magic.MagicType.MISC)),
