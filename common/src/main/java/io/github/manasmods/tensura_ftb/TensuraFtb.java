@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 
 public final class TensuraFtb {
     public static final String MOD_ID = "tensura_ftb";
-    public static FtbConfig CONFIG = ConfigRegistry.getConfig(FtbConfig.class);
 
     public static void init() {
         ConfigRegistry.registerConfig(new FtbConfig());
