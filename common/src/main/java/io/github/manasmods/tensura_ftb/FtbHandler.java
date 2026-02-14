@@ -37,14 +37,12 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class FtbHandler {
-    public static FtbConfig CONFIG = ConfigRegistry.getConfig(FtbConfig.class);
-
     public static void init() {
         EntityEvents.LIVING_EFFECT_ADDED.register((entity, source, changeableInstance) -> {
             MobEffectInstance instance = changeableInstance.get();
             if (instance == null) return EventResult.pass();
             if (instance.getEffect().value().isBeneficial()) return EventResult.pass();
-            if (CONFIG.harmfulEffect) return EventResult.pass();
+            if (ConfigRegistry.getConfig(FtbConfig.class).harmfulEffect) return EventResult.pass();
 
             if (!entity.level().isClientSide() && source instanceof LivingEntity attacker) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
@@ -59,7 +57,7 @@ public class FtbHandler {
         });
 
         TensuraEntityEvents.ENERGY_DRAIN_EVENT.register((target, drainer, drainType, gainType, amount, percentage) -> {
-            if (CONFIG.energyDrain) return EventResult.pass();
+            if (ConfigRegistry.getConfig(FtbConfig.class).energyDrain) return EventResult.pass();
             if (!target.level().isClientSide() && drainer instanceof LivingEntity attacker) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
                 if (mode == PvPMode.ALWAYS) return EventResult.pass();
@@ -73,7 +71,7 @@ public class FtbHandler {
         });
 
         TensuraEntityEvents.POSSESSION_EVENT.register((target, possessor) -> {
-            if (CONFIG.possession) return EventResult.pass();
+            if (ConfigRegistry.getConfig(FtbConfig.class).possession) return EventResult.pass();
             if (!target.level().isClientSide() && possessor instanceof LivingEntity attacker) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
                 if (mode == PvPMode.ALWAYS) return EventResult.pass();
@@ -87,7 +85,7 @@ public class FtbHandler {
         });
 
         TensuraEntityEvents.SPIRITUAL_HURT_EVENT.register((target, attacker, originalAmount, resistPercentage, amount, source) -> {
-            if (CONFIG.spiritualDamage) return EventResult.pass();
+            if (ConfigRegistry.getConfig(FtbConfig.class).spiritualDamage) return EventResult.pass();
             if (!target.level().isClientSide() && attacker instanceof LivingEntity livingAttacker) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
                 if (mode == PvPMode.ALWAYS) return EventResult.pass();
@@ -102,7 +100,7 @@ public class FtbHandler {
 
         TensuraEntityEvents.INSTANT_TRANSMISSION_EVENT.register((target, teleporter, position, type) -> {
             if (!type.equals(WarpPoint.TransmissionType.ABILITY) || target == teleporter) return EventResult.pass();
-            if (CONFIG.forcedTeleportation) return EventResult.pass();
+            if (ConfigRegistry.getConfig(FtbConfig.class).forcedTeleportation) return EventResult.pass();
 
             if (!target.level().isClientSide() && target instanceof LivingEntity livingTarget && teleporter instanceof LivingEntity livingOwner) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
@@ -117,7 +115,7 @@ public class FtbHandler {
         });
 
         TensuraSkillEvents.SKILL_PLUNDER.register((target, owner, steal, skill) -> {
-            if (CONFIG.abilityPlundering) return EventResult.pass();
+            if (ConfigRegistry.getConfig(FtbConfig.class).abilityPlundering) return EventResult.pass();
             if (!target.level().isClientSide() && target instanceof LivingEntity livingTarget && owner instanceof LivingEntity livingOwner) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
                 if (mode == PvPMode.ALWAYS) return EventResult.pass();
@@ -131,7 +129,7 @@ public class FtbHandler {
         });
 
         TensuraSkillEvents.SKILL_GRIEF_PRE.register((instance, level, owner, x, y, z) -> {
-            if (CONFIG.abilityGrief) return EventResult.pass();
+            if (ConfigRegistry.getConfig(FtbConfig.class).abilityGrief) return EventResult.pass();
             BlockPos pos = ObjectSelectionHelper.getBlockPos(new Vec3(x, y, z));
             if (shouldPreventInteraction(ClaimedChunkManagerImpl.getInstance(), level, owner, InteractionHand.MAIN_HAND, pos, FTBChunksExpected.getBlockBreakProtection(), null)) {
                 if (owner instanceof ServerPlayer sp) FTBCUtils.forceHeldItemSync(sp, InteractionHand.MAIN_HAND);
@@ -143,6 +141,9 @@ public class FtbHandler {
 
     private static boolean isPvPProtectedChunk(PvPMode mode, LivingEntity entity, LivingEntity attacker) {
         if (entity == null) return false;
+        FtbConfig CONFIG = ConfigRegistry.getConfig(FtbConfig.class);
+        if (CONFIG == null) return false;
+
         if (CONFIG.protectPlayers && entity.getType().equals(EntityType.PLAYER)) {
             if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, entity);
             if (attacker instanceof Mob mob && SubordinateHelper.getSubordinateOwner(mob) instanceof Player) return canPVP(mode, entity);

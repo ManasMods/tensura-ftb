@@ -16,7 +16,8 @@ public class MixinSubordinateHelper {
     @Inject(method = "isAlly", at = @At(value = "RETURN"), remap = false, cancellable = true)
     private static void isAlly(LivingEntity entity, LivingEntity target, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValue()) return;
-        if (!ConfigRegistry.getConfig(FtbConfig.class).ftbAllyTensura) return;
+        FtbConfig CONFIG = ConfigRegistry.getConfig(FtbConfig.class);
+        if (CONFIG == null || !CONFIG.ftbAllyTensura) return;
         if (!(entity instanceof ServerPlayer owner) || !(target instanceof ServerPlayer player)) return;
         if (ClaimedChunkManagerImpl.getInstance().getOrCreateData(owner).isAlly(player.getUUID())) cir.setReturnValue(true);
         else if (ClaimedChunkManagerImpl.getInstance().getOrCreateData(player).isAlly(owner.getUUID())) cir.setReturnValue(true);
