@@ -24,7 +24,7 @@ public final class TensuraFtb {
         AbilityTask.ABILITY = TaskTypes.register(ResourceLocation.fromNamespaceAndPath(TensuraFtb.MOD_ID, "ability"),
                 AbilityTask::new, () -> getFtbIcon(TensuraMaterialItems.BATTLEWILL_MANUAL.getId()));
         AwakeningTask.AWAKENING = TaskTypes.register(ResourceLocation.fromNamespaceAndPath(TensuraFtb.MOD_ID, "awakening"),
-                AwakeningTask::new, () -> getFtbIcon(TensuraMobDropItems.DEMON_ESSENCE.getId()));
+                AwakeningTask::new, () -> getFtbIcon(TensuraMobDropItems.DAEMON_ESSENCE.getId()));
         ExistenceTask.EXISTENCE = TaskTypes.register(ResourceLocation.fromNamespaceAndPath(TensuraFtb.MOD_ID, "existence_value"),
                 ExistenceTask::new, () -> getFtbIcon(TensuraMobDropItems.DRAGON_ESSENCE.getId()));
         SpiritTask.SPIRIT = TaskTypes.register(ResourceLocation.fromNamespaceAndPath(TensuraFtb.MOD_ID, "spirit"),
@@ -37,7 +37,7 @@ public final class TensuraFtb {
         RandomAbilityReward.RANDOM_ABILITY = RewardTypes.register(ResourceLocation.fromNamespaceAndPath(TensuraFtb.MOD_ID, "random_ability"),
                 RandomAbilityReward::new, () -> getFtbIcon(TensuraMobDropItems.ELEMENTAL_ESSENCE.getId()));
         AwakeningReward.AWAKENING = RewardTypes.register(ResourceLocation.fromNamespaceAndPath(TensuraFtb.MOD_ID, "awakening"),
-                AwakeningReward::new, () -> getFtbIcon(TensuraMobDropItems.DEMON_ESSENCE.getId()));
+                AwakeningReward::new, () -> getFtbIcon(TensuraMobDropItems.DAEMON_ESSENCE.getId()));
         ExistenceReward.EXISTENCE = RewardTypes.register(ResourceLocation.fromNamespaceAndPath(TensuraFtb.MOD_ID, "existence_value"),
                 ExistenceReward::new, () -> getFtbIcon(TensuraMobDropItems.DRAGON_ESSENCE.getId()));
         SpiritReward.SPIRIT = RewardTypes.register(ResourceLocation.fromNamespaceAndPath(TensuraFtb.MOD_ID, "spirit"),
