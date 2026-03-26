@@ -116,7 +116,7 @@ public class FtbHandler {
 
         TensuraSkillEvents.SKILL_PLUNDER.register((target, owner, steal, skill) -> {
             if (ConfigRegistry.getConfig(FtbConfig.class).abilityPlundering) return EventResult.pass();
-            if (!target.level().isClientSide() && target instanceof LivingEntity livingTarget && owner instanceof LivingEntity livingOwner) {
+            if (target != null && !target.level().isClientSide() && target instanceof LivingEntity livingTarget && owner instanceof LivingEntity livingOwner) {
                 PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
                 if (mode == PvPMode.ALWAYS) return EventResult.pass();
                 if (isPvPProtectedChunk(mode, livingTarget, livingOwner)) {

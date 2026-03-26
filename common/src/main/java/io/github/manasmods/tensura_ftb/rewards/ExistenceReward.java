@@ -4,6 +4,7 @@ import dev.ftb.mods.ftblibrary.config.ConfigGroup;
 import dev.ftb.mods.ftbquests.quest.Quest;
 import dev.ftb.mods.ftbquests.quest.reward.Reward;
 import dev.ftb.mods.ftbquests.quest.reward.RewardType;
+import io.github.manasmods.tensura.registry.entity.HumanEntityTypes;
 import io.github.manasmods.tensura.registry.sound.TensuraSoundEvents;
 import io.github.manasmods.tensura.storage.TensuraStorages;
 import io.github.manasmods.tensura.storage.ep.IExistence;
@@ -102,6 +103,16 @@ public class ExistenceReward extends Reward {
 				playerData.setResetCounter(playerData.getResetCounter() + value);
 				playerData.markDirty();
 			}
+            case REPUTATION -> {
+                ITensuraPlayer playerData = TensuraStorages.getPlayerDataFrom(player);
+                playerData.setReputation(HumanEntityTypes.DWARF.getId(), playerData.getReputation(HumanEntityTypes.DWARF.getId()) + value);
+                playerData.markDirty();
+            }
+            case BONUS_SKILL_LOCK -> {
+                ITensuraPlayer playerData = TensuraStorages.getPlayerDataFrom(player);
+                playerData.setBonusSkillLock(playerData.getBonusSkillLock() + value);
+                playerData.markDirty();
+            }
 		}
 		if (notify) player.playNotifySound(TensuraSoundEvents.ENERGY_DRAIN.get(), SoundSource.PLAYERS, 1, 1);
 	}

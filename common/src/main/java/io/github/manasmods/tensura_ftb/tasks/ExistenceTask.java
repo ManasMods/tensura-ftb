@@ -6,6 +6,7 @@ import dev.ftb.mods.ftbquests.quest.TeamData;
 import dev.ftb.mods.ftbquests.quest.task.ISingleLongValueTask;
 import dev.ftb.mods.ftbquests.quest.task.Task;
 import dev.ftb.mods.ftbquests.quest.task.TaskType;
+import io.github.manasmods.tensura.registry.entity.HumanEntityTypes;
 import io.github.manasmods.tensura.storage.TensuraStorages;
 import io.github.manasmods.tensura.util.EnergyHelper;
 import net.fabricmc.api.EnvType;
@@ -101,7 +102,9 @@ public class ExistenceTask extends Task implements ISingleLongValueTask {
 			case SOUL -> TensuraStorages.getExistenceFrom(player).getSoulPoints() / 10000.0;
 			case HUMAN_KILL -> TensuraStorages.getExistenceFrom(player).getHumanKill();
 			case RESET_COUNTER -> TensuraStorages.getPlayerDataFrom(player).getResetCounter();
-		};
+            case REPUTATION -> TensuraStorages.getPlayerDataFrom(player).getReputation(HumanEntityTypes.DWARF.getId());
+            case BONUS_SKILL_LOCK -> TensuraStorages.getPlayerDataFrom(player).getBonusSkillLock();
+        };
 	}
 
 	public void submitTask(TeamData teamData, ServerPlayer player, ItemStack craftedItem) {
@@ -118,6 +121,8 @@ public class ExistenceTask extends Task implements ISingleLongValueTask {
 		MAX_MAGICULE,
 		SOUL,
 		HUMAN_KILL,
-		RESET_COUNTER
+		RESET_COUNTER,
+        REPUTATION,
+        BONUS_SKILL_LOCK
 	}
 }
