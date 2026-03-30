@@ -17,10 +17,14 @@ public class FtbConfig extends ManasConfig {
     public boolean harmfulEffect = false;
     @Comment("Allow energy draining in non-pvp claims.")
     public boolean energyDrain = false;
+    @Comment("Allow mind controlling in non-pvp claims.")
+    public boolean mindControl = false;
     @Comment("Allow possession in non-pvp claims.")
     public boolean possession = false;
     @Comment("Allow spiritual damage in non-pvp claims.")
     public boolean spiritualDamage = false;
+    @Comment("Allow movement forced by others' abilities in non-pvp claims.")
+    public boolean forcedMovement = false;
     @Comment("Allow teleportation forced by others' abilities in non-pvp claims.")
     public boolean forcedTeleportation = false;
     @Comment("Allow ability plundering in non-pvp claims.")
