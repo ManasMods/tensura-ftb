@@ -187,11 +187,11 @@ public class FtbHandler {
                 if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, mob);
                 if (attacker instanceof Mob sub && SubordinateHelper.getSubordinateOwner(sub) instanceof Player) return canPVP(mode, mob);
             }
-        } else return true;
+        } else canPVP(mode, entity);
         return false;
     }
 
-    private static boolean canPVP(PvPMode mode, LivingEntity entity) {
+    private static boolean canPVP(PvPMode mode, Entity entity) {
         ClaimedChunk cc = ClaimedChunkManagerImpl.getInstance().getChunk(new ChunkDimPos(entity.level(), entity.blockPosition()));
         return cc != null && (mode == PvPMode.NEVER || !cc.getTeamData().allowPVP());
     }

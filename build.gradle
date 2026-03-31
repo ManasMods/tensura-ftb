@@ -355,7 +355,7 @@ subprojects {
                 filesMatching('fabric.mod.json') {
                     expand placeholders
 
-                    if (true) {
+                    if (false) {
                         filter { String line ->
                             if (line.contains('"mixins":')) {
                                 var modifiedLine = "  \"accessWidener\": \"${project.archives_name}.accesswidener\",\n" + line
