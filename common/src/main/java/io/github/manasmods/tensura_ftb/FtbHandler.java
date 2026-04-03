@@ -23,6 +23,7 @@ import io.github.manasmods.tensura.util.SubordinateHelper;
 import io.github.manasmods.tensura_ftb.registry.FtbConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -171,6 +172,7 @@ public class FtbHandler {
         if (entity == null) return false;
         FtbConfig CONFIG = ConfigRegistry.getConfig(FtbConfig.class);
         if (CONFIG == null) return false;
+        if (CONFIG.protectedEntities.contains(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString())) return canPVP(mode, entity);
 
         if (CONFIG.protectPlayers && entity instanceof Player player) {
             if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, player);

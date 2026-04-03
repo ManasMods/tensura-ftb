@@ -3,6 +3,8 @@ package io.github.manasmods.tensura_ftb.registry;
 import io.github.manasmods.manascore.config.api.Comment;
 import io.github.manasmods.manascore.config.api.ManasConfig;
 
+import java.util.List;
+
 public class FtbConfig extends ManasConfig {
     @Comment("Should FTB teams members to be counted as Ally for Tensura's abilities.")
     public boolean ftbAllyTensura = true;
@@ -12,6 +14,8 @@ public class FtbConfig extends ManasConfig {
     public boolean protectSubordinates = true;
     @Comment("Protect every mob (including non-subordinate/pet) from tensura abilities in non-pvp claims.")
     public boolean protectMobs = false;
+    @Comment("List of entities that are automatically protected from tensura abilities in non-pvp claims regardless of their entity type.")
+    public List<String> protectedEntities = List.of("minecraft:villager", "tensura:dwarf");
 
     @Comment("Allow harmful effect from others to be inflicted in non-pvp claims.")
     public boolean harmfulEffect = false;
