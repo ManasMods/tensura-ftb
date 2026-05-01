@@ -172,29 +172,31 @@ public class FtbHandler {
         if (entity == null) return false;
         FtbConfig CONFIG = ConfigRegistry.getConfig(FtbConfig.class);
         if (CONFIG == null) return false;
-        if (CONFIG.protectedEntities.contains(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString())) return canPVP(mode, entity);
+        if (CONFIG.protectedEntities.contains(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString())) return canPVP(mode, entity, attacker);
 
         if (CONFIG.protectPlayers && entity instanceof Player player) {
-            if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, player);
-            if (attacker instanceof Mob mob && SubordinateHelper.getSubordinateOwner(mob) instanceof Player) return canPVP(mode, player);
+            if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, player, attacker);
+            if (attacker instanceof Mob mob && SubordinateHelper.getSubordinateOwner(mob) instanceof Player) return canPVP(mode, player, attacker);
         }
 
         if (entity instanceof Mob mob) {
             if (CONFIG.protectSubordinates && SubordinateHelper.getSubordinateOwner(mob) instanceof Player player && !player.equals(attacker)) {
-                if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, mob);
-                if (attacker instanceof Mob sub && SubordinateHelper.getSubordinateOwner(sub) instanceof Player) return canPVP(mode, mob);
+                if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, mob, attacker);
+                if (attacker instanceof Mob sub && SubordinateHelper.getSubordinateOwner(sub) instanceof Player) return canPVP(mode, mob, attacker);
             }
 
             if (CONFIG.protectMobs) {
-                if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, mob);
-                if (attacker instanceof Mob sub && SubordinateHelper.getSubordinateOwner(sub) instanceof Player) return canPVP(mode, mob);
+                if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, mob, attacker);
+                if (attacker instanceof Mob sub && SubordinateHelper.getSubordinateOwner(sub) instanceof Player) return canPVP(mode, mob, attacker);
             }
-        } else canPVP(mode, entity);
+        } else canPVP(mode, entity, attacker);
         return false;
     }
 
-    private static boolean canPVP(PvPMode mode, Entity entity) {
-        ClaimedChunk cc = ClaimedChunkManagerImpl.getInstance().getChunk(new ChunkDimPos(entity.level(), entity.blockPosition()));
+    private static boolean canPVP(PvPMode mode, Entity entity, LivingEntity attacker) {
+        ClaimedChunkManagerImpl manager = ClaimedChunkManagerImpl.getInstance();
+        if (manager.getBypassProtection(attacker.getUUID())) return true;
+        ClaimedChunk cc = manager.getChunk(new ChunkDimPos(entity.level(), entity.blockPosition()));
         return cc != null && (mode == PvPMode.NEVER || !cc.getTeamData().allowPVP());
     }
 
@@ -207,8 +209,10 @@ public class FtbHandler {
 
         ClaimedChunkImpl chunk = manager.getChunk(new ChunkDimPos(level, pos));
         if (chunk != null) {
+            if (actor == null) return true;
+
             ProtectionPolicy policy = actor instanceof ServerPlayer player ? protection.getProtectionPolicy(player, pos, hand, chunk, targetEntity) : null;
-            boolean prevented = policy != null && policy.isOverride() ? policy.shouldPreventInteraction() : isFake || actor == null || !manager.getBypassProtection(actor.getUUID());
+            boolean prevented = policy != null && policy.isOverride() ? policy.shouldPreventInteraction() : isFake || !manager.getBypassProtection(actor.getUUID());
             if (prevented && actor instanceof ServerPlayer player) {
                 PlayerNotifier.notifyWithCooldown(player, Component.translatable("ftbchunks.action_prevented").withStyle(ChatFormatting.GOLD), 2000);
                 if (isFake) chunk.getTeamData().logPreventedAccess(player, System.currentTimeMillis());
