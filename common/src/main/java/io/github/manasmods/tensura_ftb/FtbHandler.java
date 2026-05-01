@@ -37,12 +37,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public class FtbHandler {
     public static void init() {
         EntityEvents.LIVING_EFFECT_ADDED.register((entity, source, changeableInstance) -> {
             MobEffectInstance instance = changeableInstance.get();
             if (instance == null) return EventResult.pass();
             if (instance.getEffect().value().isBeneficial()) return EventResult.pass();
+            if (source == entity || Objects.equals(changeableInstance.get().tensura$getSource(), entity.getUUID())) return EventResult.pass();
             if (ConfigRegistry.getConfig(FtbConfig.class).harmfulEffect) return EventResult.pass();
 
             if (!entity.level().isClientSide() && source instanceof LivingEntity attacker) {
