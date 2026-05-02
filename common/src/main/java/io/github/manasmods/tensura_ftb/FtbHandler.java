@@ -173,32 +173,33 @@ public class FtbHandler {
 
     private static boolean isPvPProtectedChunk(PvPMode mode, Entity entity, LivingEntity attacker) {
         if (entity == null) return false;
+        ClaimedChunkManagerImpl manager = ClaimedChunkManagerImpl.getInstance();
+        if (manager.getBypassProtection(attacker.getUUID())) return false;
+
         FtbConfig CONFIG = ConfigRegistry.getConfig(FtbConfig.class);
         if (CONFIG == null) return false;
-        if (CONFIG.protectedEntities.contains(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString())) return canPVP(mode, entity, attacker);
+        if (CONFIG.protectedEntities.contains(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString())) return canPVP(mode, entity, manager);
 
         if (CONFIG.protectPlayers && entity instanceof Player player) {
-            if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, player, attacker);
-            if (attacker instanceof Mob mob && SubordinateHelper.getSubordinateOwner(mob) instanceof Player) return canPVP(mode, player, attacker);
+            if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, player, manager);
+            if (attacker instanceof Mob mob && SubordinateHelper.getSubordinateOwner(mob) instanceof Player) return canPVP(mode, player, manager);
         }
 
         if (entity instanceof Mob mob) {
             if (CONFIG.protectSubordinates && SubordinateHelper.getSubordinateOwner(mob) instanceof Player player && !player.equals(attacker)) {
-                if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, mob, attacker);
-                if (attacker instanceof Mob sub && SubordinateHelper.getSubordinateOwner(sub) instanceof Player) return canPVP(mode, mob, attacker);
+                if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, mob, manager);
+                if (attacker instanceof Mob sub && SubordinateHelper.getSubordinateOwner(sub) instanceof Player) return canPVP(mode, mob, manager);
             }
 
             if (CONFIG.protectMobs) {
-                if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, mob, attacker);
-                if (attacker instanceof Mob sub && SubordinateHelper.getSubordinateOwner(sub) instanceof Player) return canPVP(mode, mob, attacker);
+                if (attacker.getType().equals(EntityType.PLAYER)) return canPVP(mode, mob, manager);
+                if (attacker instanceof Mob sub && SubordinateHelper.getSubordinateOwner(sub) instanceof Player) return canPVP(mode, mob, manager);
             }
-        } else canPVP(mode, entity, attacker);
+        } else canPVP(mode, entity, manager);
         return false;
     }
 
-    private static boolean canPVP(PvPMode mode, Entity entity, LivingEntity attacker) {
-        ClaimedChunkManagerImpl manager = ClaimedChunkManagerImpl.getInstance();
-        if (manager.getBypassProtection(attacker.getUUID())) return true;
+    private static boolean canPVP(PvPMode mode, Entity entity, ClaimedChunkManagerImpl manager) {
         ClaimedChunk cc = manager.getChunk(new ChunkDimPos(entity.level(), entity.blockPosition()));
         return cc != null && (mode == PvPMode.NEVER || !cc.getTeamData().allowPVP());
     }
