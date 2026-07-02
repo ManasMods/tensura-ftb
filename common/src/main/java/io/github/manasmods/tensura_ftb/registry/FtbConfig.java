@@ -17,6 +17,11 @@ public class FtbConfig extends ManasConfig {
     @Comment("List of entities that are automatically protected from tensura abilities in non-pvp claims regardless of their entity type.")
     public List<String> protectedEntities = List.of("minecraft:villager", "tensura:dwarf");
 
+    @Comment("Allow non-ability damage (normal weapon swing, arrow, etc) from others to damage non-player protected mobs in non-pvp claims.")
+    public boolean mobDamage = false;
+    @Comment("Allow ability damage from others to damage non-player protected mobs in non-pvp claims.")
+    public boolean mobDamageAbility = false;
+
     @Comment("Allow harmful effect from others to be inflicted in non-pvp claims.")
     public boolean harmfulEffect = false;
     @Comment("Allow energy draining in non-pvp claims.")

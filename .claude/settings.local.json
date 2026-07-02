@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew --refresh-dependencies :neoforge:dependencies --configuration runtimeClasspath -q)",
+      "Bash(./gradlew -q :neoforge:dependencyInsight --configuration runtimeClasspath --dependency org.ow2.asm:asm-commons)",
+      "Bash(./gradlew -q :neoforge:dependencies)",
+      "Bash(./gradlew :neoforge:runData --console=plain)",
+      "Bash(grep -rl \"asm-commons[/\\\\\\\\\\\\\\\\]9.8\\\\|asm-commons-9.8\\\\|asm\\\\\\\\\\\\\\\\9.8\\\\|asm/9.8\" .idea neoforge/build common/build run .architectury-transformer)",
+      "Bash(./gradlew -q :neoforge:dependencyInsight --configuration runtimeClasspath --dependency org.ow2.asm:asm-commons --all)",
+      "Bash(./gradlew -q :neoforge:dependencies --configuration runtimeClasspath)",
+      "Bash(./gradlew -q :neoforge:dependencyInsight --configuration runtimeClasspath --dependency org.ow2.asm:asm:9.8)",
+      "Bash(grep -rli \"asm-commons\\\\\\\\\\\\\\\\9.7\\\\|asm-commons/9.7\\\\|asm-commons-9.7\" neoforge run .gradle build common/build)",
+      "Read(//c/Users/pcx/.gradle/caches/modules-2/files-2.1/**)",
+      "Bash(grep -rl \"ow2.asm\" mezz.jei)",
+      "Bash(grep -rl \"ow2.asm\" dev.ftb.mods)",
+      "Bash(grep -i -A2 \"asm\" mezz.jei/jei-1.21.1-core/19.22.0.315/*/jei-1.21.1-core-19.22.0.315.pom)"
+    ]
+  }
+}

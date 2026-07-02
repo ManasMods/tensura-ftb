@@ -60,6 +60,26 @@ public class FtbHandler {
             return EventResult.pass();
         });
 
+        EntityEvents.LIVING_PRE_DAMAGED.register((entity, source, damage) -> {
+            if (!entity.level().isClientSide()) {
+                if (source.tensura$getAbilityInstance() != null || source.tensura$getMagicType() != null
+                        || source.tensura$getSkillType() != null || source.tensura$getElement() != null) {
+                    if (ConfigRegistry.getConfig(FtbConfig.class).mobDamageAbility) return EventResult.pass();
+                } else if (source.getEntity() != null && ConfigRegistry.getConfig(FtbConfig.class).mobDamage) return EventResult.pass();
+
+                if (source.getEntity() instanceof LivingEntity attacker) {
+                    PvPMode mode = FTBChunksWorldConfig.PVP_MODE.get();
+                    if (mode == PvPMode.ALWAYS) return EventResult.pass();
+                    if (isPvPProtectedChunk(mode, entity, attacker)) {
+                        if (attacker instanceof Player player)
+                            PlayerNotifier.notifyWithCooldown(player, Component.translatable("ftbchunks.message.no_pvp").withStyle(ChatFormatting.GOLD), 3000L);
+                        return EventResult.interruptFalse();
+                    }
+                }
+            }
+            return EventResult.pass();
+        });
+
         TensuraEntityEvents.ENERGY_DRAIN_EVENT.register((target, drainer, drainType, gainType, amount, percentage) -> {
             if (ConfigRegistry.getConfig(FtbConfig.class).energyDrain) return EventResult.pass();
             if (!target.level().isClientSide() && drainer instanceof LivingEntity attacker) {

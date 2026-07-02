@@ -17,14 +17,6 @@ allprojects {
     version = rootProject.mod_version
 }
 
-configurations.all {
-    resolutionStrategy {
-        force "org.ow2.asm:asm:9.7"
-        force "org.ow2.asm:asm-commons:9.7"
-        force "org.ow2.asm:asm-tree:9.7"
-    }
-}
-
 subprojects {
     apply plugin: 'dev.architectury.loom'
     apply plugin: 'architectury-plugin'
